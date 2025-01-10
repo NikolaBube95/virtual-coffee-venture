@@ -14,20 +14,22 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 
+interface Profile {
+  id: string;
+  email: string | null;
+  first_name: string | null;
+  last_name: string | null;
+  phone: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 interface AffiliateRelationship {
   id: string;
   referred_id: string;
   earnings: number;
   created_at: string;
-  profiles: {
-    id: string;
-    email: string | null;
-    first_name: string | null;
-    last_name: string | null;
-    phone: string | null;
-    created_at: string;
-    updated_at: string;
-  } | null;
+  referred_user: Profile | null;
 }
 
 interface AffiliateInvitation {
@@ -90,7 +92,7 @@ const AffiliateSection = () => {
           referred_id,
           earnings,
           created_at,
-          profiles(
+          referred_user:profiles!referred_id(
             id,
             email,
             first_name,
@@ -168,10 +170,10 @@ const AffiliateSection = () => {
   };
 
   const formatName = (affiliate: AffiliateRelationship) => {
-    if (!affiliate.profiles) return 'Unknown User';
-    const firstName = affiliate.profiles.first_name || '';
-    const lastName = affiliate.profiles.last_name || '';
-    return firstName || lastName ? `${firstName} ${lastName}`.trim() : affiliate.profiles.email || 'Unknown User';
+    if (!affiliate.referred_user) return 'Unknown User';
+    const firstName = affiliate.referred_user.first_name || '';
+    const lastName = affiliate.referred_user.last_name || '';
+    return firstName || lastName ? `${firstName} ${lastName}`.trim() : affiliate.referred_user.email || 'Unknown User';
   };
 
   return (
