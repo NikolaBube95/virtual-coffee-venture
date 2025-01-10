@@ -37,19 +37,26 @@ const Index = () => {
       <main className="flex-1 pt-32">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-8">
+            <div className="flex justify-center mb-8">
+              <img 
+                src="/lovable-uploads/2e3b7316-0bc0-4483-9dc6-5f40a07de38d.png" 
+                alt="5bucks mascot" 
+                className="w-40 h-40 animate-bounce"
+              />
+            </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white">
               Turn Your Coffee Habit Into a Million-Dollar Opportunity!
             </h1>
             <p className="text-xl text-white/80">
               Why spend money on coffee when you can invest it and watch your wealth grow?
             </p>
-            <div className="flex justify-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button 
                 size="lg"
                 className="bg-[#A0FF42] hover:bg-[#A0FF42]/90 text-[#4C0E95] font-bold"
                 asChild
               >
-                <Link to="/signup">Start Investing</Link>
+                <Link to="/signup">Start Investing Now</Link>
               </Button>
               <Button 
                 size="lg"
@@ -67,6 +74,13 @@ const Index = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">How It Works</h2>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="affiliate-card">
+                <div className="flex justify-center mb-4">
+                  <img 
+                    src="/lovable-uploads/2e3b7316-0bc0-4483-9dc6-5f40a07de38d.png" 
+                    alt="5bucks mascot" 
+                    className="w-20 h-20"
+                  />
+                </div>
                 <h3 className="text-xl font-bold mb-4">Buy Virtual Coffee</h3>
                 <p className="text-white/80">Skip the local café and purchase a virtual coffee within our app.</p>
               </div>
@@ -104,6 +118,38 @@ const Index = () => {
             </div>
           </div>
 
+          {/* New CTA Section */}
+          <div className="mt-32 bg-[#A0FF42]/10 py-16 rounded-3xl">
+            <div className="max-w-4xl mx-auto text-center space-y-8">
+              <div className="flex justify-center">
+                <img 
+                  src="/lovable-uploads/2e3b7316-0bc0-4483-9dc6-5f40a07de38d.png" 
+                  alt="5bucks mascot" 
+                  className="w-32 h-32"
+                />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to Start Your Investment Journey?</h2>
+              <p className="text-xl text-white/80">Join thousands of smart investors who've already made the switch!</p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <Button 
+                  size="lg"
+                  className="bg-[#A0FF42] hover:bg-[#A0FF42]/90 text-[#4C0E95] font-bold"
+                  asChild
+                >
+                  <Link to="/signup">Create Account</Link>
+                </Button>
+                <Button 
+                  size="lg"
+                  variant="outline" 
+                  className="border-white/20 text-white hover:bg-white/10"
+                  asChild
+                >
+                  <Link to="/login">Login</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+
           {/* Testimonials Section */}
           <div className="mt-32 max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">What Our Users Say</h2>
@@ -121,14 +167,31 @@ const Index = () => {
 
           {/* Final CTA Section */}
           <div className="mt-32 max-w-3xl mx-auto text-center space-y-8">
+            <div className="flex justify-center">
+              <img 
+                src="/lovable-uploads/2e3b7316-0bc0-4483-9dc6-5f40a07de38d.png" 
+                alt="5bucks mascot" 
+                className="w-24 h-24"
+              />
+            </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to turn your coffee habit into a future full of possibilities?</h2>
-            <Button 
-              size="lg"
-              className="bg-[#A0FF42] hover:bg-[#A0FF42]/90 text-[#4C0E95] font-bold"
-              asChild
-            >
-              <Link to="/signup">Start Investing Now</Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Button 
+                size="lg"
+                className="bg-[#A0FF42] hover:bg-[#A0FF42]/90 text-[#4C0E95] font-bold"
+                asChild
+              >
+                <Link to="/signup">Start Investing Now</Link>
+              </Button>
+              <Button 
+                size="lg"
+                variant="outline" 
+                className="border-white/20 text-white hover:bg-white/10"
+                asChild
+              >
+                <Link to="/about">Learn More</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </main>
