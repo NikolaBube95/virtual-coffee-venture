@@ -1,17 +1,43 @@
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import LoginDialog from "./auth/LoginDialog";
+import SignupDialog from "./auth/SignupDialog";
 
 const AuthButton = () => {
-  const handleLogin = () => {
-    console.log("Login clicked");
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+
+  const openLogin = () => {
+    setIsLoginOpen(true);
+    setIsSignupOpen(false);
+  };
+
+  const openSignup = () => {
+    setIsSignupOpen(true);
+    setIsLoginOpen(false);
   };
 
   return (
-    <Button 
-      onClick={handleLogin}
-      className="bg-primary hover:bg-primary/90"
-    >
-      Sign In with Google
-    </Button>
+    <>
+      <Button 
+        onClick={openLogin}
+        className="bg-primary hover:bg-primary/90"
+      >
+        Sign In
+      </Button>
+
+      <LoginDialog 
+        isOpen={isLoginOpen} 
+        onClose={() => setIsLoginOpen(false)}
+        onOpenSignup={openSignup}
+      />
+
+      <SignupDialog 
+        isOpen={isSignupOpen} 
+        onClose={() => setIsSignupOpen(false)}
+        onOpenLogin={openLogin}
+      />
+    </>
   );
 };
 
