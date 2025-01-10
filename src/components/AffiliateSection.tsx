@@ -20,9 +20,13 @@ interface AffiliateRelationship {
   earnings: number;
   created_at: string;
   profiles: {
+    id: string;
     email: string | null;
     first_name: string | null;
     last_name: string | null;
+    phone: string | null;
+    created_at: string;
+    updated_at: string;
   } | null;
 }
 
@@ -86,10 +90,14 @@ const AffiliateSection = () => {
           referred_id,
           earnings,
           created_at,
-          profiles!affiliate_relationships_referred_id_fkey(
+          profiles:referred_id(
+            id,
             email,
             first_name,
-            last_name
+            last_name,
+            phone,
+            created_at,
+            updated_at
           )
         `)
         .eq('referrer_id', user?.id);
