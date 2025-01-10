@@ -19,12 +19,22 @@ const AuthButton = () => {
 
   return (
     <>
-      <Button 
-        onClick={openLogin}
-        className="bg-primary hover:bg-primary/90"
-      >
-        Sign In
-      </Button>
+      <div className="flex items-center gap-4">
+        <Button 
+          onClick={openLogin}
+          variant="ghost"
+          className="text-white hover:bg-white/10"
+        >
+          Sign In
+        </Button>
+
+        <Button 
+          onClick={openSignup}
+          className="bg-primary hover:bg-primary/90"
+        >
+          Sign Up
+        </Button>
+      </div>
 
       <LoginDialog 
         isOpen={isLoginOpen} 
