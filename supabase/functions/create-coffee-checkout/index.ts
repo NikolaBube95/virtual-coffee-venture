@@ -28,9 +28,9 @@ serve(async (req) => {
       throw new Error('User not authenticated');
     }
 
-    // Make sure we're using the secret key from environment variables
     const stripeSecretKey = Deno.env.get('STRIPE_SECRET_KEY');
     if (!stripeSecretKey) {
+      console.error('Stripe secret key not found in environment variables');
       throw new Error('Stripe secret key not configured');
     }
 
