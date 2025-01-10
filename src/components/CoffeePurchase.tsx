@@ -56,7 +56,11 @@ const CoffeePurchase = () => {
       </h1>
       
       <div className="relative">
-        <img src="/lovable-uploads/a102f7ef-cf24-4cea-909b-1f43f9990663.png" alt="Virtual Coffee" className="w-32 h-32" />
+        <img 
+          src="/lovable-uploads/dedeef59-35c1-4ad9-92eb-c49163dc067c.png" 
+          alt="Coffee Investment Mascot" 
+          className="w-32 h-32"
+        />
       </div>
 
       <div className="flex items-center space-x-4">
@@ -89,7 +93,7 @@ const CoffeePurchase = () => {
         size="lg"
       >
         <Coffee className="mr-2" />
-        Buy for ${(coffeeCount * 5).toFixed(2)}
+        Buy your coffee now ${(coffeeCount * 5).toFixed(2)}
       </Button>
     </div>
   );
