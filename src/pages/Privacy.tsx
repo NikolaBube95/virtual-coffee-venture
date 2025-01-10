@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+
 const Privacy = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#4C0E95]">
