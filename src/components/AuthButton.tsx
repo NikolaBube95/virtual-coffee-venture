@@ -1,53 +1,42 @@
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import LoginDialog from "./auth/LoginDialog";
-import SignupDialog from "./auth/SignupDialog";
+import { useAuth } from "./auth/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const AuthButton = () => {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
-  const openLogin = () => {
-    setIsLoginOpen(true);
-    setIsSignupOpen(false);
-  };
-
-  const openSignup = () => {
-    setIsSignupOpen(true);
-    setIsLoginOpen(false);
-  };
-
-  return (
-    <>
+  if (user) {
+    return (
       <div className="flex items-center gap-4">
         <Button 
-          onClick={openLogin}
+          onClick={() => signOut()}
           variant="ghost"
           className="text-white hover:bg-white/10"
         >
-          Sign In
-        </Button>
-
-        <Button 
-          onClick={openSignup}
-          className="bg-primary hover:bg-primary/90"
-        >
-          Sign Up
+          Sign Out
         </Button>
       </div>
+    );
+  }
 
-      <LoginDialog 
-        isOpen={isLoginOpen} 
-        onClose={() => setIsLoginOpen(false)}
-        onOpenSignup={openSignup}
-      />
+  return (
+    <div className="flex items-center gap-4">
+      <Button 
+        onClick={() => navigate("/auth")}
+        variant="ghost"
+        className="text-white hover:bg-white/10"
+      >
+        Sign In
+      </Button>
 
-      <SignupDialog 
-        isOpen={isSignupOpen} 
-        onClose={() => setIsSignupOpen(false)}
-        onOpenLogin={openLogin}
-      />
-    </>
+      <Button 
+        onClick={() => navigate("/auth")}
+        className="bg-primary hover:bg-primary/90"
+      >
+        Sign Up
+      </Button>
+    </div>
   );
 };
 
