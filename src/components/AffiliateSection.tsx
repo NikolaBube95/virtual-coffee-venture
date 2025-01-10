@@ -29,7 +29,9 @@ interface AffiliateRelationship {
   referred_id: string;
   earnings: number;
   created_at: string;
-  referred_user: Profile | null;
+  referred_user: {
+    email: string | null;
+  } | null;
 }
 
 interface AffiliateInvitation {
@@ -93,13 +95,7 @@ const AffiliateSection = () => {
           earnings,
           created_at,
           referred_user:profiles!referred_id(
-            id,
-            email,
-            first_name,
-            last_name,
-            phone,
-            created_at,
-            updated_at
+            email
           )
         `)
         .eq('referrer_id', user?.id);
@@ -170,10 +166,7 @@ const AffiliateSection = () => {
   };
 
   const formatName = (affiliate: AffiliateRelationship) => {
-    if (!affiliate.referred_user) return 'Unknown User';
-    const firstName = affiliate.referred_user.first_name || '';
-    const lastName = affiliate.referred_user.last_name || '';
-    return firstName || lastName ? `${firstName} ${lastName}`.trim() : affiliate.referred_user.email || 'Unknown User';
+    return affiliate.referred_user?.email || 'Unknown User';
   };
 
   return (
