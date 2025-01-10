@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Coffee, Plus, Minus } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { useToast } from "@/hooks/use-toast";
 
 const CoffeePurchase = () => {
   const [coffeeCount, setCoffeeCount] = useState(1);
+  const { user } = useAuth();
+  const { toast } = useToast();
 
   const handleIncrement = () => {
     setCoffeeCount(prev => Math.min(prev + 1, 200));
@@ -13,8 +18,35 @@ const CoffeePurchase = () => {
     setCoffeeCount(prev => Math.max(prev - 1, 1));
   };
 
-  const handlePurchase = () => {
-    console.log(`Purchasing ${coffeeCount} coffees`);
+  const handlePurchase = async () => {
+    if (!user) return;
+
+    try {
+      const amount = coffeeCount * 5;
+      const { error } = await supabase
+        .from('coffee_purchases')
+        .insert({
+          user_id: user.id,
+          quantity: coffeeCount,
+          amount: amount
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Purchase successful!",
+        description: `You bought ${coffeeCount} coffee${coffeeCount > 1 ? 's' : ''} for $${amount}`,
+      });
+
+      setCoffeeCount(1);
+    } catch (error) {
+      console.error('Purchase error:', error);
+      toast({
+        title: "Purchase failed",
+        description: "There was an error processing your purchase",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -53,9 +85,10 @@ const CoffeePurchase = () => {
 
       <Button 
         onClick={handlePurchase}
-        className="coffee-button"
+        className="bg-primary hover:bg-primary/90"
         size="lg"
       >
+        <Coffee className="mr-2" />
         Buy for ${(coffeeCount * 5).toFixed(2)}
       </Button>
     </div>
