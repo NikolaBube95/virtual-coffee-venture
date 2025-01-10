@@ -75,15 +75,7 @@ const AffiliateSection = () => {
       }
 
       console.log('Received affiliate data:', data);
-      
-      // Transform the data to match our interface
-      const transformedData = data.map(item => ({
-        ...item,
-        profiles: item.profiles || null
-      }));
-      
-      console.log('Transformed data:', transformedData);
-      setAffiliates(transformedData);
+      setAffiliates(data || []);
     } catch (error) {
       console.error('Error fetching affiliates:', error);
     }
@@ -112,85 +104,84 @@ const AffiliateSection = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div className="md:col-span-2 space-y-8">
-        <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-4 text-white">Your Referred Users</h2>
-          <div className="overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow className="border-white/10">
-                  <TableHead className="text-white/60">User</TableHead>
-                  <TableHead className="text-white/60">Date Joined</TableHead>
-                  <TableHead className="text-white/60 text-right">Earnings</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {affiliates.length === 0 ? (
-                  <TableRow className="border-white/10">
-                    <TableCell colSpan={3} className="text-center text-white/60">
-                      No referrals yet. Share your link to start earning!
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  affiliates.map((affiliate) => (
-                    <TableRow key={affiliate.id} className="border-white/10">
-                      <TableCell className="text-white">
-                        {formatName(affiliate)}
-                      </TableCell>
-                      <TableCell className="text-white">
-                        {new Date(affiliate.created_at).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="text-right text-white">
-                        ${affiliate.earnings.toFixed(2)}
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
+    <div className="space-y-8">
+      {/* Join Our Affiliate Program Section */}
+      <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4 text-white">Join Our Affiliate Program</h2>
+        <p className="text-white/80 mb-6">
+          Share with your friends and earn 20% for every coffee they purchase!
+        </p>
+        
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            value={affiliateLink}
+            readOnly
+            className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/20 text-white"
+          />
+          <Button
+            onClick={handleCopy}
+            variant="outline"
+            size="icon"
+            className="border-white/20 text-white hover:bg-white/10"
+          >
+            <Copy className="h-4 w-4" />
+          </Button>
         </div>
       </div>
 
-      <div className="space-y-8">
-        <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-4 text-white">Join Our Affiliate Program</h2>
-          <p className="text-white/80 mb-6">
-            Share with your friends and earn 20% for every coffee they purchase!
-          </p>
-          
-          <div className="flex items-center space-x-2">
-            <input
-              type="text"
-              value={affiliateLink}
-              readOnly
-              className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/20 text-white"
-            />
-            <Button
-              onClick={handleCopy}
-              variant="outline"
-              size="icon"
-              className="border-white/20 text-white hover:bg-white/10"
-            >
-              <Copy className="h-4 w-4" />
-            </Button>
-          </div>
+      {/* Referred Users Table Section */}
+      <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4 text-white">Your Referred Users</h2>
+        <div className="overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-white/10">
+                <TableHead className="text-white/60">User</TableHead>
+                <TableHead className="text-white/60">Date Joined</TableHead>
+                <TableHead className="text-white/60 text-right">Earnings</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {affiliates.length === 0 ? (
+                <TableRow className="border-white/10">
+                  <TableCell colSpan={3} className="text-center text-white/60">
+                    No referrals yet. Share your link to start earning!
+                  </TableCell>
+                </TableRow>
+              ) : (
+                affiliates.map((affiliate) => (
+                  <TableRow key={affiliate.id} className="border-white/10">
+                    <TableCell className="text-white">
+                      {formatName(affiliate)}
+                    </TableCell>
+                    <TableCell className="text-white">
+                      {new Date(affiliate.created_at).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell className="text-right text-white">
+                      ${affiliate.earnings.toFixed(2)}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
         </div>
+      </div>
 
-        <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-4 text-white">Your Affiliate Balance</h2>
-          <p className="text-3xl font-bold text-[#9b87f5] mb-6">
-            ${balance.toFixed(2)}
-          </p>
-          <Button 
-            onClick={handleWithdraw}
-            className="w-full bg-[#9b87f5] hover:bg-[#9b87f5]/90 text-white"
-            disabled={balance <= 0}
-          >
-            Withdraw Funds
-          </Button>
-        </div>
+      {/* Withdrawal Section */}
+      <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4 text-white">Your Affiliate Balance</h2>
+        <p className="text-3xl font-bold text-[#9b87f5] mb-6">
+          ${balance.toFixed(2)}
+        </p>
+        <Button 
+          onClick={handleWithdraw}
+          className="w-full bg-[#9b87f5] hover:bg-[#9b87f5]/90 text-white"
+          disabled={balance <= 0}
+        >
+          Withdraw Funds
+        </Button>
       </div>
     </div>
   );
