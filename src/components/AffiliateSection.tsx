@@ -61,7 +61,7 @@ const AffiliateSection = () => {
           referred_id,
           earnings,
           created_at,
-          profiles (
+          profiles:referred_id(
             email,
             first_name,
             last_name
