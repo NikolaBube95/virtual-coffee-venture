@@ -87,7 +87,7 @@ const Dashboard = () => {
                 <TableHeader>
                   <TableRow className="border-white/10">
                     <TableHead className="text-white/60">Date</TableHead>
-                    <TableHead className="text-white/60">Reference ID</TableHead>
+                    <TableHead className="text-white/60">Purchase ID</TableHead>
                     <TableHead className="text-white/60">Quantity</TableHead>
                     <TableHead className="text-white/60 text-right">Amount</TableHead>
                   </TableRow>
