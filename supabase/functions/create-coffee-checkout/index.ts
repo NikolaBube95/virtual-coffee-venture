@@ -32,6 +32,7 @@ serve(async (req) => {
       apiVersion: '2023-10-16',
     });
 
+    console.log('Creating payment session...');
     const session = await stripe.checkout.sessions.create({
       customer_email: user.email,
       line_items: [
@@ -45,6 +46,7 @@ serve(async (req) => {
       cancel_url: `${req.headers.get('origin')}/dashboard?canceled=true`,
     });
 
+    console.log('Payment session created:', session.id);
     return new Response(
       JSON.stringify({ url: session.url }),
       { 
@@ -53,7 +55,7 @@ serve(async (req) => {
       }
     );
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error creating payment session:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       { 
