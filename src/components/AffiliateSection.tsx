@@ -94,9 +94,7 @@ const AffiliateSection = () => {
           referred_id,
           earnings,
           created_at,
-          referred_user:profiles!referred_id(
-            email
-          )
+          referred_user:profiles(email)
         `)
         .eq('referrer_id', user?.id);
 
