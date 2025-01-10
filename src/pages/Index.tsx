@@ -1,12 +1,30 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Navbar from "@/components/Navbar";
+import CoffeePurchase from "@/components/CoffeePurchase";
+import CoffeeCounter from "@/components/CoffeeCounter";
+import AffiliateSection from "@/components/AffiliateSection";
+import Footer from "@/components/Footer";
 
 const Index = () => {
+  // This would come from your backend in a real app
+  const totalRaised = 125000;
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
+      <main className="flex-1 container mx-auto px-4 pt-24">
+        <div className="space-y-16">
+          <CoffeeCounter total={totalRaised} />
+          
+          <CoffeePurchase />
+          
+          <div className="max-w-2xl mx-auto">
+            <AffiliateSection />
+          </div>
+        </div>
+      </main>
+
+      <Footer />
     </div>
   );
 };
