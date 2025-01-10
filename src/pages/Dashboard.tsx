@@ -67,7 +67,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#1A1F2C]">
       <Navbar />
       
       <main className="flex-1 container mx-auto px-4 pt-24">
@@ -81,28 +81,28 @@ const Dashboard = () => {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6">Purchase History</h2>
-            <div className="bg-white/5 border border-white/10 rounded-lg overflow-hidden">
+            <h2 className="text-2xl font-bold mb-6 text-white">Purchase History</h2>
+            <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg overflow-hidden">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Reference ID</TableHead>
-                    <TableHead>Quantity</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
+                  <TableRow className="border-white/10">
+                    <TableHead className="text-white/60">Date</TableHead>
+                    <TableHead className="text-white/60">Reference ID</TableHead>
+                    <TableHead className="text-white/60">Quantity</TableHead>
+                    <TableHead className="text-white/60 text-right">Amount</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {purchases.map((purchase) => (
-                    <TableRow key={purchase.id}>
-                      <TableCell>
+                    <TableRow key={purchase.id} className="border-white/10">
+                      <TableCell className="text-white">
                         {new Date(purchase.purchase_date).toLocaleDateString()}
                       </TableCell>
-                      <TableCell className="font-mono">
+                      <TableCell className="font-mono text-white">
                         {purchase.reference_code}
                       </TableCell>
-                      <TableCell>{purchase.quantity}</TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-white">{purchase.quantity}</TableCell>
+                      <TableCell className="text-right text-white">
                         ${purchase.amount.toFixed(2)}
                       </TableCell>
                     </TableRow>

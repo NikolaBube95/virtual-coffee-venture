@@ -46,9 +46,9 @@ const AffiliateSection = () => {
 
   return (
     <div className="space-y-8">
-      <div className="bg-white/5 border border-white/10 rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-4">Join Our Affiliate Program</h2>
-        <p className="text-gray-300 mb-6">
+      <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4 text-white">Join Our Affiliate Program</h2>
+        <p className="text-white/80 mb-6">
           Share with your friends and earn 20% for every coffee they purchase!
         </p>
         
@@ -57,26 +57,27 @@ const AffiliateSection = () => {
             type="text"
             value={affiliateLink}
             readOnly
-            className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10"
+            className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/20 text-white"
           />
           <Button
             onClick={handleCopy}
             variant="outline"
             size="icon"
+            className="border-white/20 text-white hover:bg-white/10"
           >
             <Copy className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-4">Your Affiliate Balance</h2>
-        <p className="text-3xl font-bold text-primary mb-6">
+      <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4 text-white">Your Affiliate Balance</h2>
+        <p className="text-3xl font-bold text-[#9b87f5] mb-6">
           ${balance.toFixed(2)}
         </p>
         <Button 
           onClick={handleWithdraw}
-          className="w-full"
+          className="w-full bg-[#9b87f5] hover:bg-[#9b87f5]/90 text-white"
           disabled={balance <= 0}
         >
           Withdraw Funds
