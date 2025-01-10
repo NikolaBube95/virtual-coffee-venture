@@ -8,7 +8,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Mail } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface SignupDialogProps {
   isOpen: boolean;
@@ -24,16 +26,52 @@ const SignupDialog = ({ isOpen, onClose, onOpenLogin }: SignupDialogProps) => {
     phone: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Signup attempt with:", formData);
-    // TODO: Implement actual signup logic
+    setLoading(true);
+    try {
+      const { data: authData, error: signUpError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (signUpError) throw signUpError;
+
+      if (authData.user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert([
+            {
+              id: authData.user.id,
+              email: formData.email,
+              first_name: formData.firstName,
+              last_name: formData.lastName,
+              phone: formData.phone,
+            }
+          ]);
+
+        if (profileError) throw profileError;
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.error("Error signing up:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleGoogleSignup = () => {
-    console.log("Google signup clicked");
-    // TODO: Implement Google signup
+  const handleGoogleSignup = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error with Google signup:", error);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,8 +129,12 @@ const SignupDialog = ({ isOpen, onClose, onOpenLogin }: SignupDialogProps) => {
             onChange={handleChange}
             className="bg-white/5 border-white/10 text-white"
           />
-          <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-            Sign Up
+          <Button 
+            type="submit" 
+            className="w-full bg-primary hover:bg-primary/90"
+            disabled={loading}
+          >
+            {loading ? "Creating account..." : "Sign Up"}
           </Button>
         </form>
 

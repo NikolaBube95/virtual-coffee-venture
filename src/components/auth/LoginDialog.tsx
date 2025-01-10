@@ -8,7 +8,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Mail } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface LoginDialogProps {
   isOpen: boolean;
@@ -19,16 +21,35 @@ interface LoginDialogProps {
 const LoginDialog = ({ isOpen, onClose, onOpenSignup }: LoginDialogProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login attempt with:", { email, password });
-    // TODO: Implement actual login logic
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) throw error;
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error logging in:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Google login clicked");
-    // TODO: Implement Google login
+  const handleGoogleLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error with Google login:", error);
+    }
   };
 
   return (
@@ -59,8 +80,12 @@ const LoginDialog = ({ isOpen, onClose, onOpenSignup }: LoginDialogProps) => {
               className="bg-white/5 border-white/10 text-white"
             />
           </div>
-          <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-            Sign In
+          <Button 
+            type="submit" 
+            className="w-full bg-primary hover:bg-primary/90"
+            disabled={loading}
+          >
+            {loading ? "Signing in..." : "Sign In"}
           </Button>
         </form>
 

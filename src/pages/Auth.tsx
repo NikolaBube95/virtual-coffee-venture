@@ -1,42 +1,36 @@
-import { Auth as SupabaseAuth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { supabase } from "@/integrations/supabase/client";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import LoginDialog from "@/components/auth/LoginDialog";
+import SignupDialog from "@/components/auth/SignupDialog";
 
 const Auth = () => {
-  const navigate = useNavigate();
+  const [showLogin, setShowLogin] = useState(true);
+  const [showSignup, setShowSignup] = useState(false);
 
-  useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate("/dashboard");
-      }
-    };
-    checkUser();
-  }, [navigate]);
+  const handleOpenSignup = () => {
+    setShowLogin(false);
+    setShowSignup(true);
+  };
+
+  const handleOpenLogin = () => {
+    setShowSignup(false);
+    setShowLogin(true);
+  };
+
+  const handleCloseLogin = () => setShowLogin(false);
+  const handleCloseSignup = () => setShowSignup(false);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#4C0E95] px-4">
-      <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-900">Welcome to 5bucks</h2>
-        <SupabaseAuth 
-          supabaseClient={supabase}
-          appearance={{
-            theme: ThemeSupa,
-            variables: {
-              default: {
-                colors: {
-                  brand: '#9b87f5',
-                  brandAccent: '#4ADE80',
-                }
-              }
-            }
-          }}
-          providers={["google"]}
-        />
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-app-background">
+      <LoginDialog
+        isOpen={showLogin}
+        onClose={handleCloseLogin}
+        onOpenSignup={handleOpenSignup}
+      />
+      <SignupDialog
+        isOpen={showSignup}
+        onClose={handleCloseSignup}
+        onOpenLogin={handleOpenLogin}
+      />
     </div>
   );
 };
