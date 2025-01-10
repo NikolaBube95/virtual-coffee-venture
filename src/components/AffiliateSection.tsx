@@ -53,6 +53,7 @@ const AffiliateSection = () => {
 
   const fetchAffiliates = async () => {
     try {
+      console.log('Fetching affiliates for user:', user?.id);
       const { data, error } = await supabase
         .from('affiliate_relationships')
         .select(`
@@ -60,7 +61,7 @@ const AffiliateSection = () => {
           referred_id,
           earnings,
           created_at,
-          profiles!affiliate_relationships_referred_id_fkey(
+          profiles (
             email,
             first_name,
             last_name
@@ -68,14 +69,20 @@ const AffiliateSection = () => {
         `)
         .eq('referrer_id', user?.id);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
+
+      console.log('Received affiliate data:', data);
       
       // Transform the data to match our interface
       const transformedData = data.map(item => ({
         ...item,
-        profiles: item.profiles[0] || null
+        profiles: item.profiles || null
       }));
       
+      console.log('Transformed data:', transformedData);
       setAffiliates(transformedData);
     } catch (error) {
       console.error('Error fetching affiliates:', error);
