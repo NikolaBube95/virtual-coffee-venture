@@ -95,6 +95,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_reference_code: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       get_total_raised: {
         Args: Record<PropertyKey, never>
         Returns: number
