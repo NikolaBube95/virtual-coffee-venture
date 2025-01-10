@@ -9,8 +9,11 @@ const Index = () => {
       <header className="fixed w-full top-0 bg-[#4C0E95]/80 backdrop-blur-lg border-b border-white/10">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Coffee className="w-6 h-6 text-[#A0FF42]" />
-            <span className="text-xl font-bold text-white">5bucks</span>
+            <img 
+              src="/lovable-uploads/d5040d4a-0fd9-4fc7-858b-961e866e097d.png" 
+              alt="5bucks logo" 
+              className="h-8 w-auto"
+            />
           </div>
           <div className="flex gap-4">
             <Button 
