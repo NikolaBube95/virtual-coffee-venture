@@ -76,10 +76,6 @@ const Dashboard = () => {
           
           <CoffeePurchase />
           
-          <div className="max-w-2xl mx-auto">
-            <AffiliateSection />
-          </div>
-
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold mb-6 text-white">Purchase History</h2>
             <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-lg overflow-hidden">
@@ -110,6 +106,10 @@ const Dashboard = () => {
                 </TableBody>
               </Table>
             </div>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            <AffiliateSection />
           </div>
         </div>
       </main>
