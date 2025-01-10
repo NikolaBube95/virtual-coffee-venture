@@ -1,11 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { Hero } from "@/components/landing/Hero";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { KeyBenefits } from "@/components/landing/KeyBenefits";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { CallToAction } from "@/components/landing/CallToAction";
 import { Footer } from "@/components/landing/Footer";
+import AuthButton from "@/components/AuthButton";
 
 const Index = () => {
   return (
@@ -21,19 +20,7 @@ const Index = () => {
             />
           </div>
           <div className="flex gap-4">
-            <Button 
-              variant="ghost" 
-              className="text-white hover:bg-white/10"
-              asChild
-            >
-              <Link to="/login">Login</Link>
-            </Button>
-            <Button 
-              className="bg-[#A685FF] hover:bg-[#A685FF]/90 text-white"
-              asChild
-            >
-              <Link to="/signup">Sign Up</Link>
-            </Button>
+            <AuthButton />
           </div>
         </div>
       </header>
