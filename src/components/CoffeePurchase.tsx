@@ -50,8 +50,8 @@ const CoffeePurchase = () => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-8 animate-fadeIn">
-      <h1 className="text-4xl md:text-5xl font-bold text-center max-w-2xl">
+    <div className="flex flex-col items-center space-y-8 animate-fadeIn bg-white/5 backdrop-blur-lg border border-white/20 rounded-xl p-8">
+      <h1 className="text-4xl md:text-5xl font-bold text-center max-w-2xl text-white">
         Instead of buying your coffee today, invest here and have a chance of winning 1 million dollars
       </h1>
       
@@ -64,12 +64,12 @@ const CoffeePurchase = () => {
           variant="outline"
           size="icon"
           onClick={handleDecrement}
-          className="rounded-full"
+          className="rounded-full border-white/20 text-white hover:bg-white/10"
         >
           <Minus className="h-4 w-4" />
         </Button>
         
-        <span className="text-2xl font-bold min-w-[3ch] text-center">
+        <span className="text-2xl font-bold min-w-[3ch] text-center text-white">
           {coffeeCount}
         </span>
         
@@ -77,7 +77,7 @@ const CoffeePurchase = () => {
           variant="outline"
           size="icon"
           onClick={handleIncrement}
-          className="rounded-full"
+          className="rounded-full border-white/20 text-white hover:bg-white/10"
         >
           <Plus className="h-4 w-4" />
         </Button>
@@ -85,7 +85,7 @@ const CoffeePurchase = () => {
 
       <Button 
         onClick={handlePurchase}
-        className="bg-primary hover:bg-primary/90"
+        className="bg-[#9b87f5] hover:bg-[#9b87f5]/90 text-white"
         size="lg"
       >
         <Coffee className="mr-2" />
