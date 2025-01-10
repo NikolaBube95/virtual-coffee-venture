@@ -60,7 +60,7 @@ const AffiliateSection = () => {
           referred_id,
           earnings,
           created_at,
-          profiles:referred_id(
+          profiles!affiliate_relationships_referred_id_fkey(
             email,
             first_name,
             last_name
@@ -69,7 +69,14 @@ const AffiliateSection = () => {
         .eq('referrer_id', user?.id);
 
       if (error) throw error;
-      setAffiliates(data || []);
+      
+      // Transform the data to match our interface
+      const transformedData = data.map(item => ({
+        ...item,
+        profiles: item.profiles[0] || null
+      }));
+      
+      setAffiliates(transformedData);
     } catch (error) {
       console.error('Error fetching affiliates:', error);
     }
