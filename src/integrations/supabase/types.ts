@@ -9,6 +9,57 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      affiliate_relationships: {
+        Row: {
+          created_at: string
+          earnings: number
+          id: string
+          referred_id: string
+          referrer_id: string
+        }
+        Insert: {
+          created_at?: string
+          earnings?: number
+          id?: string
+          referred_id: string
+          referrer_id: string
+        }
+        Update: {
+          created_at?: string
+          earnings?: number
+          id?: string
+          referred_id?: string
+          referrer_id?: string
+        }
+        Relationships: []
+      }
+      coffee_purchases: {
+        Row: {
+          amount: number
+          id: string
+          purchase_date: string
+          quantity: number
+          reference_code: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          id?: string
+          purchase_date?: string
+          quantity: number
+          reference_code?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          id?: string
+          purchase_date?: string
+          quantity?: number
+          reference_code?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -44,7 +95,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_total_raised: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      get_user_affiliate_balance: {
+        Args: {
+          user_uuid: string
+        }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never
