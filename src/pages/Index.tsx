@@ -41,7 +41,7 @@ const Index = () => {
               <img 
                 src="/lovable-uploads/2e3b7316-0bc0-4483-9dc6-5f40a07de38d.png" 
                 alt="5bucks mascot" 
-                className="w-40 h-40 animate-bounce"
+                className="w-32 h-32 object-contain animate-bounce" 
               />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white">
@@ -125,7 +125,7 @@ const Index = () => {
                 <img 
                   src="/lovable-uploads/2e3b7316-0bc0-4483-9dc6-5f40a07de38d.png" 
                   alt="5bucks mascot" 
-                  className="w-32 h-32"
+                  className="w-24 h-24 object-contain" 
                 />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to Start Your Investment Journey?</h2>
@@ -171,7 +171,7 @@ const Index = () => {
               <img 
                 src="/lovable-uploads/2e3b7316-0bc0-4483-9dc6-5f40a07de38d.png" 
                 alt="5bucks mascot" 
-                className="w-24 h-24"
+                className="w-20 h-20 object-contain" 
               />
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to turn your coffee habit into a future full of possibilities?</h2>
