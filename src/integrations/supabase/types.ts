@@ -55,7 +55,15 @@ export type Database = {
           referred_id?: string
           referrer_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_affiliate_relationships_profiles"
+            columns: ["referred_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       coffee_purchases: {
         Row: {
