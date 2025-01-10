@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 
 interface AffiliateRelationship {
   id: string;
@@ -25,17 +26,27 @@ interface AffiliateRelationship {
   } | null;
 }
 
+interface AffiliateInvitation {
+  id: string;
+  email: string;
+  status: string;
+  created_at: string;
+}
+
 const AffiliateSection = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [balance, setBalance] = useState(0);
   const [affiliates, setAffiliates] = useState<AffiliateRelationship[]>([]);
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [invitations, setInvitations] = useState<AffiliateInvitation[]>([]);
   const affiliateLink = `${window.location.origin}?ref=${user?.id}`;
 
   useEffect(() => {
     if (user) {
       fetchAffiliateBalance();
       fetchAffiliates();
+      fetchInvitations();
     }
   }, [user]);
 
@@ -48,6 +59,20 @@ const AffiliateSection = () => {
       setBalance(data || 0);
     } catch (error) {
       console.error('Error fetching affiliate balance:', error);
+    }
+  };
+
+  const fetchInvitations = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('affiliate_invitations')
+        .select('*')
+        .eq('referrer_id', user?.id);
+
+      if (error) throw error;
+      setInvitations(data || []);
+    } catch (error) {
+      console.error('Error fetching invitations:', error);
     }
   };
 
@@ -89,6 +114,44 @@ const AffiliateSection = () => {
     });
   };
 
+  const handleInvite = async () => {
+    if (!inviteEmail) {
+      toast({
+        title: "Error",
+        description: "Please enter an email address",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('affiliate_invitations')
+        .insert([
+          {
+            referrer_id: user?.id,
+            email: inviteEmail,
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Invitation sent!",
+        description: "We'll notify you when they join",
+      });
+      
+      setInviteEmail("");
+      fetchInvitations();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleWithdraw = async () => {
     toast({
       title: "Coming soon!",
@@ -112,21 +175,59 @@ const AffiliateSection = () => {
           Share with your friends and earn 20% for every coffee they purchase!
         </p>
         
-        <div className="flex items-center space-x-2">
-          <input
-            type="text"
-            value={affiliateLink}
-            readOnly
-            className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/20 text-white"
-          />
-          <Button
-            onClick={handleCopy}
-            variant="outline"
-            size="icon"
-            className="border-white/20 text-white hover:bg-white/10"
-          >
-            <Copy className="h-4 w-4" />
-          </Button>
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <input
+              type="text"
+              value={affiliateLink}
+              readOnly
+              className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/20 text-white"
+            />
+            <Button
+              onClick={handleCopy}
+              variant="outline"
+              size="icon"
+              className="border-white/20 text-white hover:bg-white/10"
+            >
+              <Copy className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Input
+              type="email"
+              placeholder="Enter friend's email"
+              value={inviteEmail}
+              onChange={(e) => setInviteEmail(e.target.value)}
+              className="flex-1 bg-white/5 border-white/20 text-white placeholder:text-white/50"
+            />
+            <Button
+              onClick={handleInvite}
+              variant="outline"
+              className="border-white/20 text-white hover:bg-white/10"
+            >
+              Invite
+            </Button>
+          </div>
+
+          {invitations.length > 0 && (
+            <div className="mt-4">
+              <h3 className="text-sm font-semibold text-white/80 mb-2">Pending Invitations</h3>
+              <div className="space-y-2">
+                {invitations.map((invitation) => (
+                  <div
+                    key={invitation.id}
+                    className="text-sm text-white/60 flex justify-between items-center"
+                  >
+                    <span>{invitation.email}</span>
+                    <span className="text-xs bg-white/10 px-2 py-1 rounded">
+                      {invitation.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
