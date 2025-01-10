@@ -66,6 +66,32 @@ const Dashboard = () => {
     };
   };
 
+  const examplePurchases = [
+    {
+      id: 'example-1',
+      purchase_date: new Date('2024-03-15'),
+      reference_code: 'EXAMPLE01',
+      quantity: 2,
+      amount: 10.00
+    },
+    {
+      id: 'example-2',
+      purchase_date: new Date('2024-03-14'),
+      reference_code: 'EXAMPLE02',
+      quantity: 1,
+      amount: 5.00
+    },
+    {
+      id: 'example-3',
+      purchase_date: new Date('2024-03-13'),
+      reference_code: 'EXAMPLE03',
+      quantity: 3,
+      amount: 15.00
+    }
+  ];
+
+  const displayPurchases = purchases.length > 0 ? purchases : examplePurchases;
+
   return (
     <div className="min-h-screen flex flex-col bg-[#1A1F2C]">
       <Navbar />
@@ -89,7 +115,7 @@ const Dashboard = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {purchases.map((purchase) => (
+                  {displayPurchases.map((purchase) => (
                     <TableRow key={purchase.id} className="border-white/10">
                       <TableCell className="text-white">
                         {new Date(purchase.purchase_date).toLocaleDateString()}
