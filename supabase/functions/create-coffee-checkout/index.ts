@@ -8,12 +8,15 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    console.log('Received request:', req.method);
     const { quantity } = await req.json();
+    console.log('Received quantity:', quantity);
     
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
@@ -22,16 +25,31 @@ serve(async (req) => {
 
     const authHeader = req.headers.get('Authorization')!;
     const token = authHeader.replace('Bearer ', '');
-    const { data: { user } } = await supabaseClient.auth.getUser(token);
+    
+    console.log('Verifying user authentication...');
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(token);
 
-    if (!user?.email) {
-      throw new Error('User not authenticated');
+    if (authError || !user?.email) {
+      console.error('Authentication error:', authError);
+      return new Response(
+        JSON.stringify({ error: 'User not authenticated' }),
+        { 
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      );
     }
 
     const stripeSecretKey = Deno.env.get('STRIPE_SECRET_KEY');
     if (!stripeSecretKey) {
-      console.error('Stripe secret key not found in environment variables');
-      throw new Error('Stripe secret key not configured');
+      console.error('Stripe secret key not found');
+      return new Response(
+        JSON.stringify({ error: 'Stripe configuration error' }),
+        { 
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      );
     }
 
     console.log('Initializing Stripe...');
@@ -64,7 +82,10 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error creating payment session:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        details: error.stack
+      }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,
