@@ -14,9 +14,9 @@ interface AffiliateRelationship {
   referred_id: string;
   earnings: number;
   created_at: string;
-  referred_user: {
+  profiles: {
     email: string | null;
-  };
+  } | null;
 }
 
 interface AffiliateTableProps {
@@ -40,7 +40,7 @@ const AffiliateTable = ({ userId }: AffiliateTableProps) => {
           referred_id,
           earnings,
           created_at,
-          referred_user:profiles(email)
+          profiles:profiles(email)
         `)
         .eq('referrer_id', userId);
 
@@ -77,7 +77,7 @@ const AffiliateTable = ({ userId }: AffiliateTableProps) => {
             affiliates.map((affiliate) => (
               <TableRow key={affiliate.id} className="border-white/10">
                 <TableCell className="text-white">
-                  {affiliate.referred_user?.email || 'Unknown User'}
+                  {affiliate.profiles?.email || 'Unknown User'}
                 </TableCell>
                 <TableCell className="text-white">
                   {new Date(affiliate.created_at).toLocaleDateString()}
